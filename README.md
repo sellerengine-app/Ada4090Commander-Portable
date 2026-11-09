@@ -8,7 +8,7 @@
 
 Distribution package for **Ada 4090 Commander**, an independent standalone optimizer designed specifically for the **NVIDIA GeForce RTX 4090 (AD102 / SM_89)**.
 
-This utility eliminates software-level pipeline bottlenecks, forces DLSS neural network weights into the **72 MB L2 internal on-chip cache**, enables **Transformer Gen 2 Presets (K/M/L)**, synchronizes the **official NVIDIA Streamline SDK 310.9.16 suite**, and unlocks **DLSS 4 Low-Latency Multi-Frame Generation (MFG)** with asynchronous compute for DirectX 12 and Vulkan.
+This utility eliminates software-level pipeline bottlenecks, forces DLSS neural network weights into the **72 MB L2 internal on-chip cache**, enables **Transformer Gen 2 Presets (K/M/L)**, synchronizes the **official NVIDIA NGX SDK 310.9.16 suite**, and unlocks **DLSS 4 Low-Latency Multi-Frame Generation (MFG)** with asynchronous compute for DirectX 12 and Vulkan.
 
 ---
 
@@ -20,12 +20,16 @@ This utility eliminates software-level pipeline bottlenecks, forces DLSS neural 
 
 ## 🆕 What's New in v3.3.9
 
-* **⚡ Official NVIDIA Streamline Suite (SDK 310.9.16)**:
-  Direct synchronization of clean Streamline interposer modules (`sl.common.dll`, `sl.interposer.dll`, `sl.dlss.dll`, `sl.dlss_g.dll`, `sl.dlss_nr.dll`, `sl.reflex.dll`, `sl.nis.dll`, `sl.pcl.dll`). Eliminates crashes and incompatibilities in Streamline-based games (e.g. *Cyberpunk 2077*, *Alan Wake 2*, *Call of Duty*).
+* **🛡️ Streamline Native ABI Preservation (Rock-Solid Stability)**:
+  Strictly avoids destructive overwriting of internal game-specific Streamline binaries (`sl.*.dll`), completely eliminating the access violation crashes (`0xC0000005` in `sl.dlss_d.dll`) caused by generic file swappers. `ada4090-sm89-tuner.addon64` and `renodx-mfgunlock.addon64` dynamically hook NGX dispatch tables in memory via Detours, ensuring 100% stability across all titles (*Call of Duty*, *Cyberpunk 2077*, *Alan Wake 2*).
+* **⚡ Official NVIDIA NGX SDK 310.9.16 Core Suite**:
+  Synchronizes verified clean, signed NGX neural runtimes (`nvngx_dlss.dll`, `nvngx_dlssd.dll`, `nvngx_dlssg.dll`, `nvngx_dlssnr.dll`), unlocking Transformer Gen 2 Presets and Ray Reconstruction 2.
 * **🌋 Native Khronos Vulkan Layer (`VkLayer_feed_vk`)**:
   Integrated Vulkan explicit layer for zero-overhead neural feed injection on pure Vulkan engines (*Doom Eternal*, *No Man's Sky*, *Baldur's Gate 3 Vulkan*, *Red Dead Redemption 2*).
-* **🛡️ Reversible Manifest Backup**:
-  Extended backup manifest now automatically preserves original Streamline and Vulkan files in timestamped `_4090_Backup_*` folders before applying optimizations.
+* **🔐 Elevated Helper (`elevate.exe`)**:
+  Integrated privilege elevation allowing seamless profile deployment to protected system folders (e.g. `C:\Program Files\Steam` or Game Pass installations).
+* **💾 Reversible Manifest Backup**:
+  Extended backup manifest now automatically preserves original DLLs and configurations in timestamped `_4090_Backup_*` folders before applying optimizations for 100% instant rollback.
 
 ---
 
@@ -121,7 +125,7 @@ This utility eliminates software-level pipeline bottlenecks, forces DLSS neural 
 
 * **Zero telemetry / No tracking:** No external servers, logins, or background telemetry.
 * **Non-destructive:** Creates automatic backups of all original game DLLs before applying profiles.
-* **Signed standalone binary:** Bundled with all necessary native runtime modules, Streamline suite, and SDK 310.9.16 libraries.
+* **Signed standalone binary:** Bundled with all necessary native runtime modules, ReShade addons, Vulkan layer, and NGX SDK 310.9.16 libraries.
 
 ---
 
