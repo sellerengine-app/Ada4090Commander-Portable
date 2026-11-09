@@ -99,6 +99,24 @@ This utility eliminates software-level pipeline bottlenecks, forces DLSS neural 
 
 ---
 
+## 🎯 Tarjetas Gráficas Compatibles (GPU Hardware Compatibility)
+
+| Serie / Arquitectura | Modelos | Soporte DLSS 5 Neural & RR2 | Soporte Multi-Frame Gen (MFG) | Optimización Caché L2 |
+| :--- | :--- | :---: | :---: | :---: |
+| **RTX Serie 40 (Ada Lovelace)**<br>*(SM_89 / Tier 1 - Objetivo Principal)* | **RTX 4090 / 4090D (24GB)**<br>• Silicio AD102 | ✅ Preset K/M/L + RR2 Preset F | ✅ Nativo OFA Gen 5 (Hasta 6x) | ✅ **72 MB Completa**<br>(64MB Inferencia / 8MB Buffers) |
+| **RTX Serie 40 (Ada Lovelace)**<br>*(SM_89 / Tier 1)* | **RTX 4080 / 4080 Super (16GB)**<br>• Silicio AD103 | ✅ Preset K/M/L + RR2 Preset F | ✅ Nativo OFA Gen 5 (Hasta 4x) | ✅ **64 MB Adaptativa**<br>(54MB Inferencia / 10MB Buffers) |
+| **RTX Serie 40 (Ada Lovelace)**<br>*(SM_89 / Tier 1)* | **RTX 4070 Ti Super / 4070 Ti / 4070 Super / 4070**<br>• Silicio AD103 / AD104 | ✅ Preset K/M/L + RR2 Preset F | ✅ Nativo OFA Gen 5 (Hasta 3x/4x) | ✅ **36 MB - 48 MB Adaptativa** |
+| **RTX Serie 40 (Ada Lovelace)**<br>*(SM_89 / Tier 1)* | **RTX 4060 Ti (8GB/16GB) / RTX 4060 (8GB)**<br>• Silicio AD106 / AD107 | ✅ Preset K/M + RR2 Preset F | ✅ Nativo OFA Gen 5 (Hasta 3x) | ✅ **24 MB - 32 MB Adaptativa** |
+| **RTX Serie 30 (Ampere)**<br>*(SM_86 / Tier 2)* | **RTX 3090 / 3090 Ti / 3080 / 3080 Ti / 3070 / 3060**<br>• Silicio GA102 / GA104 / GA106 | ✅ Preset K/M + RR2 Preset F | 🔄 Modo Smooth Motion / Companion | ⚠️ Modo Híbrido VRAM (6 MB L2) |
+| **RTX Serie 20 (Turing)**<br>*(SM_75 / Tier 3)* | **RTX 2080 Ti / 2080 Super / 2080 / 2070 / 2060**<br>• Silicio TU102 / TU104 / TU106 | ✅ DLSS Super Resolution + RR | 🔄 Modo Interpolación Liviana | ⚠️ Modo VRAM Estándar (4-6 MB L2) |
+
+> [!TIP]
+> **Compatibilidad de Procesadores (CPU Target):**
+> * **Intel:** Core 12ª, 13ª y 14ª generación (i5, i7, i9) optimizados con instrucciones vectoriales nativas AVX2 / FMA3.
+> * **AMD:** Ryzen serie 5000, 7000, 9000 y modelos con 3D V-Cache (5800X3D, 7800X3D, 9800X3D) con soporte completo de paralelismo AVX2.
+
+---
+
 ## 🛡️ Privacy & Technical Integrity
 
 * **Zero telemetry / No tracking:** No external servers, logins, or background telemetry.
