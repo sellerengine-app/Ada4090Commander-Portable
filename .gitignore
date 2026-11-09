@@ -1,0 +1,19 @@
+# Ignore binaries and archives in git commits
+*.zip
+*.7z
+*.rar
+*.exe
+*.dll
+*.addon64
+*.pdb
+*.obj
+*.log
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
