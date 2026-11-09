@@ -1,20 +1,31 @@
-# ⚡ Ada 4090 Commander & SM_89 Native Tuner (v3.3.8 Portable)
+# ⚡ Ada 4090 Commander & SM_89 Native Tuner (v3.3.9 Portable)
 
 [![NVIDIA Architecture](https://img.shields.io/badge/Architecture-Ada_Lovelace_AD102-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://www.nvidia.com/)
 [![SDK](https://img.shields.io/badge/NVIDIA_SDK-310.9.16-blue?style=for-the-badge)](https://developer.nvidia.com/rtx/dlss)
 [![Compute Capability](https://img.shields.io/badge/SM_Arch-SM__89-green?style=for-the-badge)]()
 [![L2 Cache Optimization](https://img.shields.io/badge/L2_Residency-72MB_Folded-orange?style=for-the-badge)]()
-[![Release](https://img.shields.io/badge/Release-v3.3.8_Portable-brightgreen?style=for-the-badge)](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases)
+[![Release](https://img.shields.io/badge/Release-v3.3.9_Portable-brightgreen?style=for-the-badge)](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases)
 
 Distribution package for **Ada 4090 Commander**, an independent standalone optimizer designed specifically for the **NVIDIA GeForce RTX 4090 (AD102 / SM_89)**.
 
-This utility eliminates software-level pipeline bottlenecks, forces DLSS neural network weights into the **72 MB L2 internal on-chip cache**, enables **Transformer Gen 2 Presets (K/M/L)**, and unlocks **DLSS 4 Low-Latency Multi-Frame Generation (MFG)** with asynchronous compute.
+This utility eliminates software-level pipeline bottlenecks, forces DLSS neural network weights into the **72 MB L2 internal on-chip cache**, enables **Transformer Gen 2 Presets (K/M/L)**, synchronizes the **official NVIDIA Streamline SDK 310.9.16 suite**, and unlocks **DLSS 4 Low-Latency Multi-Frame Generation (MFG)** with asynchronous compute for DirectX 12 and Vulkan.
 
 ---
 
 ## 📸 In-Game Native Tuner Overlay
 
 ![Ada 4090 Tuner Overlay](assets/tuner_overlay.jpg)
+
+---
+
+## 🆕 What's New in v3.3.9
+
+* **⚡ Official NVIDIA Streamline Suite (SDK 310.9.16)**:
+  Direct synchronization of clean Streamline interposer modules (`sl.common.dll`, `sl.interposer.dll`, `sl.dlss.dll`, `sl.dlss_g.dll`, `sl.dlss_nr.dll`, `sl.reflex.dll`, `sl.nis.dll`, `sl.pcl.dll`). Eliminates crashes and incompatibilities in Streamline-based games (e.g. *Cyberpunk 2077*, *Alan Wake 2*, *Call of Duty*).
+* **🌋 Native Khronos Vulkan Layer (`VkLayer_feed_vk`)**:
+  Integrated Vulkan explicit layer for zero-overhead neural feed injection on pure Vulkan engines (*Doom Eternal*, *No Man's Sky*, *Baldur's Gate 3 Vulkan*, *Red Dead Redemption 2*).
+* **🛡️ Reversible Manifest Backup**:
+  Extended backup manifest now automatically preserves original Streamline and Vulkan files in timestamped `_4090_Backup_*` folders before applying optimizations.
 
 ---
 
@@ -80,7 +91,7 @@ This utility eliminates software-level pipeline bottlenecks, forces DLSS neural 
 ## 🎮 Quick Start Guide (Portable)
 
 1. Navigate to the [Releases](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases) tab.
-2. Download **`Ada4090Commander_v3.3.8_NGX310_Portable.zip`**.
+2. Download **`Ada4090Commander_v3.3.9_NGX310_Portable.zip`**.
 3. Extract the archive to any folder on your NVMe drive.
 4. Launch **`Ada4090Commander.exe`** (no installer or invasive drivers needed).
 5. Drag and drop your game directory onto the **Dropzone** and click **`⚡ Optimización Total (1 Clic)`**.
@@ -92,7 +103,7 @@ This utility eliminates software-level pipeline bottlenecks, forces DLSS neural 
 
 * **Zero telemetry / No tracking:** No external servers, logins, or background telemetry.
 * **Non-destructive:** Creates automatic backups of all original game DLLs before applying profiles.
-* **Signed standalone binary:** Bundled with all necessary native runtime modules and SDK 310.9.16 libraries.
+* **Signed standalone binary:** Bundled with all necessary native runtime modules, Streamline suite, and SDK 310.9.16 libraries.
 
 ---
 
