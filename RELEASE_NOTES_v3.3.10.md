@@ -43,6 +43,16 @@ Standalone, fully portable release of **Ada 4090 Commander & SM_89 Native Tuner 
 * **Clear Action Differentiation in Game Detail**:
   * **`⚡ Full Suite Deployment (1-Click)`**: Complete platform deployment (installs DLSS Triad DLLs, SCSKiller shader precompilation, Engine.ini tuning & Feeder).
   * **`🎯 Competitive Low-Jitter Profile (1% Lows)`**: Pure frametime pacing refresh (enforces zero-jitter presets, 140 FPS VRR clamp, 72MB L2 folded cache & DXR Fast-Trace without touching game engine files).
+
+#### 5. 🎭 1-Click Photorealistic Neural Face & Skin Reconstruction
+* **Automatic Character Mask Activation (`AutoMask = 1`)**:
+  * Automatically isolates human characters and faces so the AI neural models actively target facial micro-detail rather than treating scenes as flat polygonal blocks.
+* **Neural Skin Micro-Structure (`Skin = 1.35x`)**:
+  * Injects authentic high-fidelity skin pores, natural sweat and specularity, subsurface scattering, eye vascularization, and facial micro-relief.
+* **Balanced Scene Structure (`Structure = 1.0x`)**:
+  * Prevents hard edge over-sharpening from suppressing the facial neural rendering pass.
+* **Dual-Pass Natural Reconstruction (`Passes = 2`, `Style = Natural`)**:
+  * Applies a second refinement pass with highlight protection for maximum bodycam-like photorealism in 1 click.
   * **Integrated In-App Action Guide**: Clear explanation box displayed directly beneath action buttons for instant clarity.
 
 ---
