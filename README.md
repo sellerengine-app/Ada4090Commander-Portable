@@ -1,15 +1,15 @@
-# ⚡ Ada 4090 Commander & SM_89 Native Tuner (v3.3.10 Portable)
+# ⚡ Ada 4090 Commander & SM_89 Native Tuner (v3.3.11 Portable)
 
 [![NVIDIA Architecture](https://img.shields.io/badge/Architecture-Ada_Lovelace_AD102-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://www.nvidia.com/)
 [![SDK](https://img.shields.io/badge/NVIDIA_SDK-310.9.16-blue?style=for-the-badge)](https://developer.nvidia.com/rtx/dlss)
 [![Compute Capability](https://img.shields.io/badge/SM_Arch-SM__89-green?style=for-the-badge)]()
 [![L2 Cache Optimization](https://img.shields.io/badge/L2_Residency-72MB_Folded-orange?style=for-the-badge)]()
 [![DXR Fast-Trace](https://img.shields.io/badge/DXR_Accelerator-Hardware_Fast--Trace-purple?style=for-the-badge)]()
-[![Release](https://img.shields.io/badge/Release-v3.3.10_Portable-brightgreen?style=for-the-badge)](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases)
+[![Release](https://img.shields.io/badge/Release-v3.3.11_Portable-brightgreen?style=for-the-badge)](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases)
 
 Distribution package for **Ada 4090 Commander**, an independent standalone optimizer designed specifically for the **NVIDIA GeForce RTX 4090 (AD102 / SM_89)**.
 
-This utility eliminates software-level pipeline bottlenecks, forces DLSS neural network weights into the **72 MB L2 internal on-chip cache**, accelerates **DXR Ray Tracing at the hardware level (Forced BVH Fast-Trace & SER Clamping)**, enables **Transformer Gen 2 Presets (K/M/L)**, synchronizes the **official NVIDIA NGX SDK 310.9.16 suite**, and unlocks **DLSS 4 Low-Latency Multi-Frame Generation (MFG)** with asynchronous compute for DirectX 12 and Vulkan.
+This utility eliminates software-level pipeline bottlenecks, forces DLSS neural network weights into the **72 MB L2 internal on-chip cache**, accelerates **DXR Ray Tracing at the hardware level (Forced BVH Fast-Trace & SER Clamping)**, enables **Transformer Gen 2 Presets (K/M/L)**, synchronizes the **official NVIDIA NGX SDK 310.9.16 suite**, auto-deploys the **Universal Streamline Interposer Suite**, and unlocks **DLSS 4 Low-Latency Multi-Frame Generation (MFG up to 6x)** with asynchronous compute for DirectX 12 and Vulkan.
 
 ---
 
@@ -19,25 +19,23 @@ This utility eliminates software-level pipeline bottlenecks, forces DLSS neural 
 
 ---
 
-## 🆕 What's New in v3.3.10
+## 🆕 What's New in v3.3.11
 
+* **🚀 Universal Streamline & Auto-MFG Fallback (1-Click Frame Generation)**:
+  * **Smart Streamline Auto-Detection & Deployment**: Eliminates the restriction where non-native DLSS 3 titles (such as *Final Fantasy VII Remake Intergrade*, *Elden Ring*, older Unreal Engine 4/5 titles) had Multi-Frame Generation disabled (`Streamline: Not detected`). On **`⚡ Full Suite Deployment (1-Click)`**, the app detects whether the game has Streamline natively. If absent, it automatically bundles and deploys the official **NVIDIA Streamline Interposer Suite** (`sl.interposer.dll`, `sl.dlss_g.dll`, `sl.common.dll`, `sl.dlss.dll`, `sl.reflex.dll`, `sl.pcl.dll`, `sl.nis.dll`).
+  * **Proactive Native C++ Bootstrap Loader (`ada4090-sm89-tuner.addon64`)**: Proactively loads and binds `sl.interposer.dll` and `nvngx_dlssg.dll` into the process address space during early initialization, allowing `renodx-mfgunlock.addon64` to recognize Streamline as **`Active`** and enabling full multi-frame multiplier control (**2x, 3x, 4x, 5x, 6x**) across non-native games in 1-Click!
+* **🎭 1-Click Hyperrealistic Neural Face & Skin Reconstruction (Custom Viral Bodycam Edition)**:
+  * **Unlocked ReShade UI Boundaries (`NRModelSliderMax = 3.0`)**: Raises stock ReShade slider limits up to 3.0, allowing unrestricted dynamic headroom for hyperrealistic neural tuning.
+  * **Unrestricted AI Weight Sensitivity Multipliers**:
+    * **Skin Sensitivity (`NRModelSkinSensitivity = 1.45x`)**: Multiplies the 32 learned lane-13 input weights by 1.45x, unlocking authentic high-fidelity skin pores, subcutaneous microvascularization, specularity, and facial micro-relief.
+    * **Structure Sensitivity (`NRModelStructureSensitivity = 1.25x`)**: Multiplies the 32 learned lane-12 structure weights by 1.25x for extreme tactical gear, fabric weave, and weapon definition.
+    * **Tone & Style Sensitivities (`Tone = 1.20x`, `Style = 1.15x`, `LocalTone = 1.65`)**: Remodels dynamic range and micro-shadow contrast for the signature viral bodycam look.
+  * **Dual-Pass Hyperrealistic Stack (`Passes = 2`, `Pass2Intensity = 0.85`, `Pass2Color = 0.72`)**: Re-injects an ultra-dense secondary refinement pass with highlight protection, eliminating temporal noise and delivering maximum photo-grade realism.
+  * **Optical Flow Temporal Stabilization (`DetailStability = Auto`)**: Synchronizes inference with the Ada Optical Flow Accelerator to eliminate shimmering/swimming on moving cameras.
 * **⚡ Smart DXR Auto-Detect & Low-Level Hardware Accelerator (Ada SM_89)**:
-  * **Zero-Overhead Standby Mode**: Starts in safe passive standby for games without hardware DXR (e.g. *Kingdom Come II* using CryEngine SVO voxel GI) to prevent unnecessary driver overhead.
-  * **Automatic Silicon Acceleration**: Automatically engages full Ada SM_89 hardware acceleration the exact moment a game engine issues its first DXR Ray Tracing call (*Black Myth: Wukong* Path Tracing, *Cyberpunk 2077* RT Overdrive, *Call of Duty* RT Sun Shadows).
-  * **Hardware Scratch Overflow Guard**: Strictly protects against out-of-bounds GPU scratch memory writes, completely eliminating `DXGI_ERROR_DEVICE_HUNG` / `DEVICE_REMOVED` TDRs when engines allocate smaller scratch buffers for dynamic builds.
-  * **VMT Interception**: Detours `ID3D12Device5` (`GetRaytracingAccelerationStructurePrebuildInfo`, `CreateStateObject`) and `ID3D12GraphicsCommandList4` (`BuildRaytracingAccelerationStructure`) with live `OnPresent` swapchain bootstrap.
-  * **Trace Recursion Clamping**: Clamps `MaxTraceRecursionDepth` to 2 to eliminate VGPR register spill to GDDR6X VRAM.
+  * Zero-overhead standby until the first DXR call, forced BVH Fast-Trace (`0x4`), recursion clamping (`Depth = 2`), and 72 MB AD102 L2 Folded Cache residency.
 * **🎯 Competitive Low-Jitter & Maximum 1% Lows Architecture**:
-  * Optimized for competitive gaming and flat frametimes. Binds DLSS Transformer Preset J/K with 72 MB AD102 L2 Folded Network residency and a hard-clamped 140.0 FPS Reflex VRR ceiling for 144 Hz displays.
-* **🛡️ Streaming Native DLSS Detection & Script Launcher Support**:
-  * **Streaming 32 MB Chunk Scanning**: Scans executables and massive engine DLLs (such as `WHGame.dll` at 88 MB in *Kingdom Come II*) without arbitrary file-size cutoffs, guaranteeing 100% accurate native DLSS classification and preventing accidental feeder collisions.
-  * **Smart Script Launcher Integration**: Seamlessly launches games requiring dedicated bootstrap scripts or offline anti-cheat drivers (e.g. `!start_sp26.bat` in *Call of Duty*) when clicking Play.
-  * **Bundled High-Resolution Cover Art**: All 18 official game artworks pre-packaged in `_internal/assets/covers` and `assets/covers` for instant visual rendering in the library.
-* **🌐 Full English Native UI & Unambiguous Action Controls**:
-  * Complete native English interface across all views, telemetry badges, and notifications.
-  * Clear action differentiation in Game Detail view:
-    * `⚡ Full Suite Deployment (1-Click)`: Complete setup (DLSS Triad, SCSKiller shader precompilation, Engine.ini tuning & Feeder).
-    * `🎯 Competitive Low-Jitter Profile (1% Lows)`: Pure frametime pacing refresh (140 FPS VRR clamp, 72MB L2 fold, DXR Fast-Trace without altering engine files).
+  * Reflex VRR Hard-Clamp (140.0 FPS Ceiling) to eliminate frame queue latency on 144 Hz displays.
 
 ---
 
