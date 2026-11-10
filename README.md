@@ -21,16 +21,23 @@ This utility eliminates software-level pipeline bottlenecks, forces DLSS neural 
 
 ## 🆕 What's New in v3.3.10
 
-* **⚡ Low-Level DXR Ray Tracing Hardware Accelerator (Ada SM_89)**:
-  Directly intercepts `ID3D12Device5` (`GetRaytracingAccelerationStructurePrebuildInfo`, `CreateStateObject`) and `ID3D12GraphicsCommandList4` (`BuildRaytracingAccelerationStructure`). Replaces engine build flags with `PREFER_FAST_TRACE (0x4)` and `ALLOW_COMPACTION (0x2)` for maximum Surface Area Heuristic (SAH) spatial density on 3rd Gen RT Cores. Synchronizes prebuild scratch sizing to avoid `DXGI_ERROR_DEVICE_REMOVED`, preserves dynamic mesh updates, and clamps `MaxTraceRecursionDepth` to 2 to eliminate VGPR register spill to GDDR6X VRAM.
+* **⚡ Smart DXR Auto-Detect & Low-Level Hardware Accelerator (Ada SM_89)**:
+  * **Zero-Overhead Standby Mode**: Starts in safe passive standby for games without hardware DXR (e.g. *Kingdom Come II* using CryEngine SVO voxel GI) to prevent unnecessary driver overhead.
+  * **Automatic Silicon Acceleration**: Automatically engages full Ada SM_89 hardware acceleration the exact moment a game engine issues its first DXR Ray Tracing call (*Black Myth: Wukong* Path Tracing, *Cyberpunk 2077* RT Overdrive, *Call of Duty* RT Sun Shadows).
+  * **Hardware Scratch Overflow Guard**: Strictly protects against out-of-bounds GPU scratch memory writes, completely eliminating `DXGI_ERROR_DEVICE_HUNG` / `DEVICE_REMOVED` TDRs when engines allocate smaller scratch buffers for dynamic builds.
+  * **VMT Interception**: Detours `ID3D12Device5` (`GetRaytracingAccelerationStructurePrebuildInfo`, `CreateStateObject`) and `ID3D12GraphicsCommandList4` (`BuildRaytracingAccelerationStructure`) with live `OnPresent` swapchain bootstrap.
+  * **Trace Recursion Clamping**: Clamps `MaxTraceRecursionDepth` to 2 to eliminate VGPR register spill to GDDR6X VRAM.
 * **🎯 Competitive Low-Jitter & Maximum 1% Lows Architecture**:
-  Optimized for competitive gaming and flat frametimes. Binds DLSS Transformer Preset J/K with 72 MB AD102 L2 Folded Network residency and a hard-clamped 140.0 FPS Reflex VRR ceiling for 144 Hz displays.
-* **🛡️ Universal Feeder Detection Fix (Non-Native DLSS Games)**:
-  Completely resolves false-positive native DLSS detection. Reliably deploys `dlss5-feed.addon64` and ReShade motion vector shaders (`DLSS5_Feed.fx`, `lumenite_Kernel.fx`) on games without native DLSS menus (e.g. *Final Fantasy VII Remake Intergrade*, *Final Fantasy VII Rebirth*), ensuring instantaneous Neural Rendering (`NR state=ENGAGED`).
+  * Optimized for competitive gaming and flat frametimes. Binds DLSS Transformer Preset J/K with 72 MB AD102 L2 Folded Network residency and a hard-clamped 140.0 FPS Reflex VRR ceiling for 144 Hz displays.
+* **🛡️ Streaming Native DLSS Detection & Script Launcher Support**:
+  * **Streaming 32 MB Chunk Scanning**: Scans executables and massive engine DLLs (such as `WHGame.dll` at 88 MB in *Kingdom Come II*) without arbitrary file-size cutoffs, guaranteeing 100% accurate native DLSS classification and preventing accidental feeder collisions.
+  * **Smart Script Launcher Integration**: Seamlessly launches games requiring dedicated bootstrap scripts or offline anti-cheat drivers (e.g. `!start_sp26.bat` in *Call of Duty*) when clicking Play.
+  * **Bundled High-Resolution Cover Art**: All 18 official game artworks pre-packaged in `_internal/assets/covers` and `assets/covers` for instant visual rendering in the library.
 * **🌐 Full English Native UI & Unambiguous Action Controls**:
-  The entire application is localized in native English. The game detail view now features distinct, dedicated action buttons with an integrated guide box:
-  * `⚡ Full Suite Deployment (1-Click)`: Complete setup (DLSS Triad, SCSKiller shader precompilation, Engine.ini tuning & Feeder).
-  * `🎯 Competitive Low-Jitter Profile (1% Lows)`: Pure frametime pacing refresh (140 FPS VRR clamp, 72MB L2 fold, DXR Fast-Trace without altering engine files).
+  * Complete native English interface across all views, telemetry badges, and notifications.
+  * Clear action differentiation in Game Detail view:
+    * `⚡ Full Suite Deployment (1-Click)`: Complete setup (DLSS Triad, SCSKiller shader precompilation, Engine.ini tuning & Feeder).
+    * `🎯 Competitive Low-Jitter Profile (1% Lows)`: Pure frametime pacing refresh (140 FPS VRR clamp, 72MB L2 fold, DXR Fast-Trace without altering engine files).
 
 ---
 

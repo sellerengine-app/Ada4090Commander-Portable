@@ -7,12 +7,15 @@ Standalone, fully portable release of **Ada 4090 Commander & SM_89 Native Tuner 
 ### 🆕 What's New in v3.3.10
 
 #### 1. ⚡ Low-Level DXR Ray Tracing Hardware Accelerator (Ada SM_89 / RTX 4090)
+* **Smart DXR Auto-Detect (Dynamic Hardware Accelerator)**:
+  * Eliminates manual guesswork: starts in passive standby mode (0% CPU/GPU overhead, zero crash risk) when games do not issue DXR calls (e.g. *Kingdom Come: Deliverance II* using CryEngine SVO voxel GI).
+  * Automatically detects and engages full Ada SM_89 hardware acceleration the exact moment a game engine issues its first DXR Ray Tracing call (e.g. *Black Myth: Wukong* Path Tracing, *Cyberpunk 2077* RT Overdrive, *Call of Duty* RT Sun Shadows).
+* **Hardware Scratch Overflow Guard**:
+  * Prevents out-of-bounds GPU scratch memory writes by strictly respecting host engine buffer allocations pre-sized for dynamic `PREFER_FAST_BUILD`, completely eliminating `DXGI_ERROR_DEVICE_HUNG` / `DEVICE_REMOVED` TDRs.
 * **DirectX 12 Low-Level VMT Interception**:
-  * Directly detours `ID3D12Device5::GetRaytracingAccelerationStructurePrebuildInfo` (slot 63), `ID3D12Device5::CreateStateObject` (slot 62), and `ID3D12GraphicsCommandList4::BuildRaytracingAccelerationStructure` (slot 72).
+  * Directly detours `ID3D12Device5::GetRaytracingAccelerationStructurePrebuildInfo` (slot 63), `ID3D12Device5::CreateStateObject` (slot 62), and `ID3D12GraphicsCommandList4::BuildRaytracingAccelerationStructure` (slot 72) with live `OnPresent` device bootstrap.
 * **Forced BVH Fast-Trace (Maximum SAH Spatial Quality)**:
-  * Eliminates engine compromises like `PREFER_FAST_BUILD (0x8)` used in games such as *Black Myth: Wukong*, forcing `PREFER_FAST_TRACE (0x4)` and `ALLOW_COMPACTION (0x2)` on static BLAS/TLAS structures to minimize ray-box/ray-triangle traversal steps on 3rd Gen RT Cores.
-* **Synchronized Scratch Buffer Sizing (Zero `DXGI_ERROR_DEVICE_REMOVED` Crashes)**:
-  * Intercepts `GetRaytracingAccelerationStructurePrebuildInfo` in tandem with BVH building so host engines dynamically allocate the exact larger scratch memory required by Fast-Trace trees, avoiding out-of-bounds GPU execution.
+  * Optimizes static BLAS and TLAS structures to `PREFER_FAST_TRACE (0x4)` to minimize ray-box and ray-triangle traversal steps on Ada 3rd Gen RT Cores.
 * **Max Trace Recursion Depth Clamping (`Depth = 2`)**:
   * Clamps state object pipeline recursion in `CreateStateObject` to 2 bounces, completely eliminating VGPR register spills to GDDR6X VRAM on SM_89 execution warps.
 * **Dynamic Geometry Preservation**:
@@ -26,12 +29,13 @@ Standalone, fully portable release of **Ada 4090 Commander & SM_89 Native Tuner 
 * **Reflex VRR Hard-Clamp (140.0 FPS Ceiling)**:
   * Strictly clamps frame pacing to 140 FPS (280 basis points) on 144 Hz monitors, guaranteeing that G-Sync / VRR remains permanently active with zero frame queue latency.
 
-#### 3. 🛡️ Universal Feeder Detection & Compatibility Fix
-* **Eliminated Historical False-Positive Native DLSS Detection**:
-  * Fixed an issue where previous backup folders containing deployed `nvngx_dlss.dll` caused non-native titles (such as *Final Fantasy VII Remake Intergrade* and *Final Fantasy VII Rebirth*) to be falsely classified as native DLSS games, inadvertently removing the Feeder add-on.
-* **Multi-Tier Native Validation**:
-  * Explicitly verifies native Unreal Engine DLSS plugins, native Streamline interposers, or clean binary signatures.
-  * Guarantees seamless deployment of `dlss5-feed.addon64` and ReShade motion vector shaders (`DLSS5_Feed.fx`, `lumenite_Kernel.fx`) for games without native DLSS menus.
+#### 3. 🛡️ Streaming Native DLSS Detection & Script Launcher Support
+* **Streaming 32 MB Chunk Scanning**:
+  * Scans executables and massive engine DLLs (such as `WHGame.dll` at 88 MB in *Kingdom Come II*) without arbitrary file-size cutoffs, guaranteeing 100% accurate native DLSS classification and preventing accidental feeder collisions.
+* **Smart Script Launcher Integration**:
+  * Seamlessly launches games requiring dedicated bootstrap scripts or offline anti-cheat drivers (e.g. `!start_sp26.bat` in *Call of Duty*) when clicking Play.
+* **Bundled High-Resolution Cover Art**:
+  * All 18 official game artworks pre-packaged in `_internal/assets/covers` and `assets/covers` for instant visual rendering in the library.
 
 #### 4. 🌐 Full English Native UI & Unambiguous Action Controls
 * **Complete Native English Interface**:
