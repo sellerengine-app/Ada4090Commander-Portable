@@ -44,15 +44,17 @@ Standalone, fully portable release of **Ada 4090 Commander & SM_89 Native Tuner 
   * **`⚡ Full Suite Deployment (1-Click)`**: Complete platform deployment (installs DLSS Triad DLLs, SCSKiller shader precompilation, Engine.ini tuning & Feeder).
   * **`🎯 Competitive Low-Jitter Profile (1% Lows)`**: Pure frametime pacing refresh (enforces zero-jitter presets, 140 FPS VRR clamp, 72MB L2 folded cache & DXR Fast-Trace without touching game engine files).
 
-#### 5. 🎭 1-Click Photorealistic Neural Face & Skin Reconstruction
-* **Automatic Character Mask Activation (`AutoMask = 1`)**:
-  * Automatically isolates human characters and faces so the AI neural models actively target facial micro-detail rather than treating scenes as flat polygonal blocks.
-* **Neural Skin Micro-Structure (`Skin = 1.35x`)**:
-  * Injects authentic high-fidelity skin pores, natural sweat and specularity, subsurface scattering, eye vascularization, and facial micro-relief.
-* **Balanced Scene Structure (`Structure = 1.0x`)**:
-  * Prevents hard edge over-sharpening from suppressing the facial neural rendering pass.
-* **Dual-Pass Natural Reconstruction (`Passes = 2`, `Style = Natural`)**:
-  * Applies a second refinement pass with highlight protection for maximum bodycam-like photorealism in 1 click.
+#### 5. 🎭 1-Click Hyperrealistic Neural Face & Skin Reconstruction (Custom Viral Bodycam Edition)
+* **Unlocked ReShade UI Boundaries (`NRModelSliderMax = 3.0`)**:
+  * Raises the stock ReShade UI slider limits up to 3.0, allowing full dynamic headroom for hyperrealistic neural tuning.
+* **Neural Weight Sensitivity Multipliers (Unrestricted AI Conditioning)**:
+  * **Skin Sensitivity (`NRModelSkinSensitivity = 1.45x`)**: Multiplies the 32 learned lane-13 input weights by 1.45x, unlocking authentic high-fidelity skin pores, subcutaneous microvascularization, specularity, and facial micro-relief.
+  * **Structure Sensitivity (`NRModelStructureSensitivity = 1.25x`)**: Multiplies the 32 learned lane-12 structure weights by 1.25x for extreme tactical gear, fabric weave, and weapon definition.
+  * **Tone & Style Sensitivities (`Tone = 1.20x`, `Style = 1.15x`, `LocalTone = 1.65`)**: Remodels dynamic range and micro-shadow contrast for the signature viral bodycam look.
+* **Automatic Character Mask Activation (`AutoMask = 1`) & Independent Skin (`NRSkinIndependent = 1`)**:
+  * Automatically isolates human characters and faces so neural passes decouple organic skin textures from hard inorganic surfaces.
+* **Dual-Pass Hyperrealistic Stack (`Passes = 2`, `Pass2Intensity = 0.85`, `Pass2Color = 0.72`)**:
+  * Re-injects an ultra-dense secondary refinement pass with highlight protection, eliminating temporal noise and delivering maximum photo-grade realism.
   * **Integrated In-App Action Guide**: Clear explanation box displayed directly beneath action buttons for instant clarity.
 
 ---
