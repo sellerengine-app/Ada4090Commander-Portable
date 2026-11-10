@@ -9,7 +9,7 @@
 
 Distribution package for **Ada 4090 Commander**, an independent standalone optimizer designed specifically for the **NVIDIA GeForce RTX 4090 (AD102 / SM_89)**.
 
-This utility eliminates software-level pipeline bottlenecks, forces DLSS neural network weights into the **72 MB L2 internal on-chip cache**, accelerates **DXR Ray Tracing at the hardware level (Forced BVH Fast-Trace & SER Clamping)**, enables **Transformer Gen 2 Presets (K/M/L)**, synchronizes the **official NVIDIA NGX SDK 310.9.16 suite**, auto-deploys the **Universal Streamline Interposer Suite**, and unlocks **DLSS 4 Low-Latency Multi-Frame Generation (MFG up to 6x)** with asynchronous compute for DirectX 12 and Vulkan.
+This utility eliminates software-level pipeline bottlenecks, forces DLSS neural network weights into the **72 MB L2 internal on-chip cache**, accelerates **DXR Ray Tracing at the hardware level (Forced BVH Fast-Trace & SER Clamping)**, enables **Transformer Gen 2 Presets (K/M/L)**, synchronizes the **official NVIDIA NGX SDK 310.9.16 suite**, and unlocks **DLSS 4 Low-Latency Multi-Frame Generation (MFG up to 6x)** with asynchronous compute for DirectX 12 and Vulkan.
 
 ---
 
@@ -21,17 +21,17 @@ This utility eliminates software-level pipeline bottlenecks, forces DLSS neural 
 
 ## 🆕 What's New in v3.3.11
 
-* **🚀 Universal Streamline & Auto-MFG Fallback (1-Click Frame Generation)**:
-  * **Smart Streamline Auto-Detection & Deployment**: Eliminates the restriction where non-native DLSS 3 titles (such as *Final Fantasy VII Remake Intergrade*, *Elden Ring*, older Unreal Engine 4/5 titles) had Multi-Frame Generation disabled (`Streamline: Not detected`). On **`⚡ Full Suite Deployment (1-Click)`**, the app detects whether the game has Streamline natively. If absent, it automatically bundles and deploys the official **NVIDIA Streamline Interposer Suite** (`sl.interposer.dll`, `sl.dlss_g.dll`, `sl.common.dll`, `sl.dlss.dll`, `sl.reflex.dll`, `sl.pcl.dll`, `sl.nis.dll`).
-  * **Proactive Native C++ Bootstrap Loader (`ada4090-sm89-tuner.addon64`)**: Proactively loads and binds `sl.interposer.dll` and `nvngx_dlssg.dll` into the process address space during early initialization, allowing `renodx-mfgunlock.addon64` to recognize Streamline as **`Active`** and enabling full multi-frame multiplier control (**2x, 3x, 4x, 5x, 6x**) across non-native games in 1-Click!
-* **🎭 1-Click Hyperrealistic Neural Face & Skin Reconstruction (Custom Viral Bodycam Edition)**:
+* **🎭 1-Click Photorealistic Neural Face & Micro-Texture Reconstruction**:
+  * **Elimination of the "Plastic / Wax Figure" Look**: Delivers authentic micro-texture, porous skin definition, and natural sensor exposure curves via custom calibrated Tensor Core multipliers.
   * **Unlocked ReShade UI Boundaries (`NRModelSliderMax = 3.0`)**: Raises stock ReShade slider limits up to 3.0, allowing unrestricted dynamic headroom for hyperrealistic neural tuning.
-  * **Unrestricted AI Weight Sensitivity Multipliers**:
+  * **Calibrated AI Weight Sensitivity Multipliers**:
     * **Skin Sensitivity (`NRModelSkinSensitivity = 1.45x`)**: Multiplies the 32 learned lane-13 input weights by 1.45x, unlocking authentic high-fidelity skin pores, subcutaneous microvascularization, specularity, and facial micro-relief.
     * **Structure Sensitivity (`NRModelStructureSensitivity = 1.25x`)**: Multiplies the 32 learned lane-12 structure weights by 1.25x for extreme tactical gear, fabric weave, and weapon definition.
-    * **Tone & Style Sensitivities (`Tone = 1.20x`, `Style = 1.15x`, `LocalTone = 1.65`)**: Remodels dynamic range and micro-shadow contrast for the signature viral bodycam look.
-  * **Dual-Pass Hyperrealistic Stack (`Passes = 2`, `Pass2Intensity = 0.85`, `Pass2Color = 0.72`)**: Re-injects an ultra-dense secondary refinement pass with highlight protection, eliminating temporal noise and delivering maximum photo-grade realism.
-  * **Optical Flow Temporal Stabilization (`DetailStability = Auto`)**: Synchronizes inference with the Ada Optical Flow Accelerator to eliminate shimmering/swimming on moving cameras.
+    * **Tone & Style Sensitivities (`Tone = 1.20x`, `LocalTone = 1.65`)**: Remodels dynamic range and micro-shadow contrast for realistic camera sensor response.
+  * **Dual-Pass Hyperrealistic Stack (`NRPasses = 2`, `NRPass2Intensity = 0.85`, `NRPass2Color = 0.72`)**: Re-injects an ultra-dense secondary refinement pass with highlight protection, eliminating temporal noise and delivering maximum photo-grade realism.
+  * **Optical Flow Temporal Stabilization (`NRDetailStability = Auto`)**: Synchronizes inference with the Ada Optical Flow Accelerator to eliminate shimmering on moving cameras.
+* **🛡️ Robust DLSS Feeder Protection & Native Auto-Detection Safeguard**:
+  * Eliminates false-positive native DLSS detection on non-native titles (e.g. *Final Fantasy VII Remake Intergrade*, *Elden Ring*, older UE4/UE5 games), guaranteeing `dlss5-feed.addon64` and `DLSS5_Feed.fx` remain 100% active and correctly configured for out-of-the-box Neural Rendering.
 * **⚡ Smart DXR Auto-Detect & Low-Level Hardware Accelerator (Ada SM_89)**:
   * Zero-overhead standby until the first DXR call, forced BVH Fast-Trace (`0x4`), recursion clamping (`Depth = 2`), and 72 MB AD102 L2 Folded Cache residency.
 * **🎯 Competitive Low-Jitter & Maximum 1% Lows Architecture**:
