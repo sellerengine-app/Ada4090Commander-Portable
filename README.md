@@ -1,92 +1,73 @@
-# ⚡ Ada 4090 Commander & SM_89 Native Tuner (v3.3.12 Portable)
+# Ada 4090 Commander (v3.4.1 Portable)
 
-[![NVIDIA Architecture](https://img.shields.io/badge/Architecture-Ada_Lovelace_AD102-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://www.nvidia.com/)
-[![SDK](https://img.shields.io/badge/NVIDIA_SDK-310.9.16-blue?style=for-the-badge)](https://developer.nvidia.com/rtx/dlss)
-[![Compute Capability](https://img.shields.io/badge/SM_Arch-SM__89-green?style=for-the-badge)]()
-[![L2 Cache Optimization](https://img.shields.io/badge/L2_Residency-72MB_Folded-orange?style=for-the-badge)]()
-[![DXR Fast-Trace](https://img.shields.io/badge/DXR_Accelerator-Hardware_Fast--Trace-purple?style=for-the-badge)]()
-[![Release](https://img.shields.io/badge/Release-v3.3.12_Portable-brightgreen?style=for-the-badge)](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases)
+[![Release](https://img.shields.io/badge/Release-v3.4.1_Portable-brightgreen?style=for-the-badge)](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases/latest)
+[![Platform](https://img.shields.io/badge/Platform-Windows_10%2F11-blue?style=for-the-badge)]()
+[![GPU](https://img.shields.io/badge/Built_for-RTX_40_(Ada)-76B900?style=for-the-badge)]()
 
-Distribution package for **Ada 4090 Commander**, an independent standalone optimizer designed specifically for the **NVIDIA GeForce RTX 4090 (AD102 / SM_89)**.
+Primary target: GeForce RTX 4090.
 
-This utility eliminates software-level pipeline bottlenecks, forces DLSS neural network weights into the **72 MB L2 internal on-chip cache**, accelerates **DXR Ray Tracing at the hardware level (Forced BVH Fast-Trace & SER Clamping)**, enables **Transformer Gen 2 Presets (K/M/L)**, synchronizes the **official NVIDIA NGX SDK 310.9.16 suite**, and unlocks **DLSS 4 Low-Latency Multi-Frame Generation (MFG up to 6x)** with asynchronous compute for DirectX 12 and Vulkan.
+Ada 4090 Commander is a portable Windows app. It installs a DLSS, frame generation and ReShade pack into your PC games and shows what is really happening in each game. It was built and tested on a GeForce RTX 4090 with a 4K 144 Hz display. Where something has not been measured in a game, this page says so.
 
----
+## What the app does
 
-## 🎮 In-Game Native Tuner Overlay
+| Page | What it does |
+|---|---|
+| **Library** | Finds installed games and shows, for each one, whether the pack is installed and which profile is detected. |
+| **DLSS Swapper** | Switches a game between the pack's DLSS profiles. |
+| **Shaders** | Precompiles a game's shaders with scskiller, a bundled third-party tool. |
+| **Health** | Reads the game's `ReShade.log` and shows what it proves about the last session, quoting the log line. Anything the log cannot prove is shown as "Cannot be known". |
+| **Updates** | Lists this repository's published releases. It never downloads or installs anything. |
+| **Settings** | Windows multimedia scheduler, NVIDIA shader cache size, activity log and the online update check switch. |
 
-![Ada 4090 Tuner Overlay](assets/tuner_overlay.jpg)
+Opening a game shows its **game page**: graphics API, whether NVIDIA Streamline is present, the DLSS DLL versions in the game folder, an anti-cheat notice when one is detected (it never blocks anything), and the cards below.
 
----
+### Safe deployment and Restore
+Before the first write, the app keeps the original of every file it touches in `_4090_Original` inside the game folder. **Restore** returns the game to those originals, even after several deployments. It also undoes the app's Engine.ini lines and its NVIDIA driver profile change (see below).
 
-## 🆕 What's New in v3.3.12
+### Frame generation route, chosen per game
+- **Games with Streamline:** DLSS Frame Generation with MFG Unlock (multipliers above 2x on RTX 40) and a frame rate cap through Reflex when VRR is active (refresh rate minus 2.8 %, 139.96 FPS on 144 Hz).
+- **Games without Streamline** (for example Final Fantasy VII Remake): MFG Unlock is not installed. Frame generation comes from **NVIDIA Smooth Motion**, the driver's own 2x frame generation. If you own Lossless Scaling, the app can start it instead.
 
-* **⚡ Vía Desacoplada: Arquitectura Desacoplada para Juegos Sin Streamline Nativo**:
-  * **Cero Regresiones & Protección Total**: Mantiene la suite 100% enfocada en lo que sí domina (Reconstrucción Neural DLSS 5 pura con piel natural a 1.45x, DXR Fast-Trace y 72MB L2 Cache Folding) sin inyectar wrappers rotos en motores sin soporte nativo de Streamline (como *Final Fantasy VII Remake Intergrade*).
-  * **Lossless Scaling (LSFG) Auto-Orchestration**: Orquestación automática de generación de fotogramas ópticos desacoplada (2x, 3x 144Hz, 4x) para títulos no nativos.
-  * **Descubrimiento Inteligente de LSFG**: Escaneo automático de bibliotecas de Steam (AppID 993090, `libraryfolders.vdf`), registro de Windows y soporte para enlace manual en 1-clic.
-  * **Card 2 Adaptativa**: Muestra dinámicamente si el juego opera con DLSS-G Nativo o Vía Desacoplada (LSFG), con botones de acción contextuales y monitoreo en tiempo real.
-  * **Lanzamiento Inteligente**: Al hacer clic en Jugar, si el juego opera en Vía Desacoplada, el launcher verifica e inicia Lossless Scaling en segundo plano de manera totalmente fluida.
+### NVIDIA driver profile (Smooth Motion)
+On deployment the app may change one setting, **Smooth Motion**, in the NVIDIA driver profile of that game only:
+- games without Streamline: turned **on** if it is not already on;
+- games with DLSS Frame Generation: turned **off** if it only comes from your global setting, so the two frame generations do not stack.
 
----
+It never changes your global setting, it does not write while the game is running, and Restore puts the game's profile back as it was. No administrator rights are needed.
 
-## 🆕 What's New in v3.3.11
+### Engine.ini (Unreal Engine games)
+- The app finds the game's own `Engine.ini` by exact project name. If it is not sure, it asks you instead of writing.
+- With "Tune Engine.ini" on, it writes `t.MaxFPS=0`, `r.DynamicRes.OperationMode=0`, `sg.TextureQuality=3`, `sg.ShadowQuality=3` and a texture streaming pool sized to your VRAM (14336 MB on 24 GB). It no longer writes `r.ScreenPercentage=100`.
+- **Ray tracing bounces** (Game default / High / Ultra), offered only when the game's executable contains the matching setting. Default: Game default. The effect depends on the game and is not measured.
+- The card shows each line and its value as it is in the file, and who set it.
 
-* **🎭 1-Click Photorealistic Neural Face & Micro-Texture Reconstruction**:
-  * **Elimination of the "Plastic / Wax Figure" Look**: Delivers authentic micro-texture, porous skin definition, and natural sensor exposure curves via custom calibrated Tensor Core multipliers.
-  * **Unlocked ReShade UI Boundaries (`NRModelSliderMax = 3.0`)**: Raises stock ReShade slider limits up to 3.0, allowing unrestricted dynamic headroom for hyperrealistic neural tuning.
-  * **Calibrated AI Weight Sensitivity Multipliers**:
-    * **Skin Sensitivity (`NRModelSkinSensitivity = 1.45x`)**: Multiplies the 32 learned lane-13 input weights by 1.45x, unlocking authentic high-fidelity skin pores, subcutaneous microvascularization, specularity, and facial micro-relief.
-    * **Structure Sensitivity (`NRModelStructureSensitivity = 1.25x`)**: Multiplies the 32 learned lane-12 structure weights by 1.25x for extreme tactical gear, fabric weave, and weapon definition.
-    * **Tone & Style Sensitivities (`Tone = 1.20x`, `LocalTone = 1.65`)**: Remodels dynamic range and micro-shadow contrast for realistic camera sensor response.
-  * **Dual-Pass Hyperrealistic Stack (`NRPasses = 2`, `NRPass2Intensity = 0.85`, `NRPass2Color = 0.72`)**: Re-injects an ultra-dense secondary refinement pass with highlight protection, eliminating temporal noise and delivering maximum photo-grade realism.
-  * **Optical Flow Temporal Stabilization (`NRDetailStability = Auto`)**: Synchronizes inference with the Ada Optical Flow Accelerator to eliminate shimmering on moving cameras.
-* **🛡️ Robust DLSS Feeder Protection & Native Auto-Detection Safeguard**:
-  * Eliminates false-positive native DLSS detection on non-native titles (e.g. *Final Fantasy VII Remake Intergrade*, *Elden Ring*, older UE4/UE5 games), guaranteeing `dlss5-feed.addon64` and `DLSS5_Feed.fx` remain 100% active and correctly configured for out-of-the-box Neural Rendering.
-* **⚡ Smart DXR Auto-Detect & Low-Level Hardware Accelerator (Ada SM_89)**:
-  * Zero-overhead standby until the first DXR call, forced BVH Fast-Trace (`0x4`), recursion clamping (`Depth = 2`), and 72 MB AD102 L2 Folded Cache residency.
-* **🎯 Competitive Low-Jitter & Maximum 1% Lows Architecture**:
-  * Reflex VRR Hard-Clamp (140.0 FPS Ceiling) to eliminate frame queue latency on 144 Hz displays.
+### Your settings stay yours
+Only a full optimisation (1-click deploy, Update All) writes the pack's addon settings. Changing the multiplier or Reflex in the app writes only that setting, so what you change in an addon's in-game panel is kept. Nothing is written to `ReShade.ini` while the game is running.
 
----
+## What is in the pack
 
-## 🔬 Deep Technical Breakdown of Features & Parameters
+| File | What it is |
+|---|---|
+| `nvngx_dlss.dll`, `nvngx_dlssd.dll`, `nvngx_dlssg.dll` | NVIDIA DLSS Super Resolution, Ray Reconstruction and Frame Generation 310.9.16, signed by NVIDIA, unchanged |
+| `nvngx_dlssnr.dll` | Custom build of NVIDIA's 310.9.16 Neural Rendering runtime with native kernels for RTX 20, 30 and 40. Not signed by NVIDIA; network weights unchanged |
+| `ada4090-sm89-tuner.addon64` | ReShade addon: DLSS presets (K for DLAA to Balanced, M for Performance, L for Ultra Performance, F for Ray Reconstruction), `DLSS.Use.Folded.Network = 1`, Frame Generation creation settings, DXR Fast-Trace only where Direct3D 12 allows it, and a ray tracing recursion limit of 4 (`DxrRecursionClampDepth=0` turns it off for a game). Its in-game panel says when each setting takes effect |
+| `renodx-mfgunlock.addon64` | ReShade addon: Frame Generation multipliers above 2x on RTX 40 and the VRR frame rate cap |
+| `renodx-dlss5.addon64`, `dlss5-feed.addon64`, `dxgi.dll` (ReShade 6.8.0), `scskiller\` | Third-party binaries |
 
-### 🎮 In-Game Overlay Controls (`Home` Key)
+### Neural Rendering cost on an RTX 4090
+Final Fantasy VII Remake, 4K, two network passes: about 14.2 ms of GPU time for the whole neural feed at scale 0.67, against 24.9 ms at 1.00. In v3.4.1 two recompiled versions of the Neural Rendering kernels with different cache behaviour were measured in Final Fantasy VII Remake and Black Myth: Wukong. Both were less than 1 % faster, so the runtime is unchanged.
 
-* **Section 1: Super Resolution (Transformer Gen 2 - SDK 310.9.16)**
-  * **Smart Presets by Scale**: Preset K (11) for DLAA & Quality (maximum 4K clarity); Preset M (13) for Performance; Preset L (12) for Ultra Performance.
-  * **Competitive Low-Jitter / Max 1% Low**: Enforces Preset J (10) with Neural Reconstruction and Multi-Frame Generation for tighter frame pacing.
-* **Section 2: L2 On-Chip Cache (72MB AD102) & Ray Reconstruction**
-  * **Folded Network in L2 Cache**: Forces `DLSS.Use.Folded.Network = 1` and allocates 64 MB of L2 SRAM for neural inference weights.
-  * **Asynchronous Weight Prefetch**: Prefetches 32 KB tiles in parallel with compute passes.
-  * **RR2 Transformer Model (Preset F = 6)**: Enforces Ray Reconstruction 2 across all titles.
-* **Section 3: Multi-Frame Generation (DLSS 4 Low-Latency Async Compute)**
-  * **Lite Candidate Blending**: Fast motion-vector blending for high-rate generation.
-  * **Async Create**: Eliminates stutters during camera cutscenes and scene transitions.
-  * **Prune Unused UIR Buffers**: Reclaims VRAM and eliminates redundant HDR permutations.
-* **Section 4: DXR Ray Tracing Hardware Accelerator (Ada SM_89)**
-  * **Force Fast-Trace on BLAS/TLAS**: Highest SAH build quality for RT Cores Gen 3.
-  * **Allow BVH Compaction**: Compresses post-build acceleration structures to save VRAM.
-  * **Clamp Max Recursion Depth (2 Bounces)**: Prevents warp register spilling.
-  * **SER + L2 Cache Affinity**: Optimizes Shader Execution Reordering for Ada AD102.
+## What this pack does not do
+- **No setting controls the GPU's L2 cache.** Earlier versions of this page claimed otherwise.
+- **No "SER clamping".** Shader Execution Reordering is used by a game's own shaders; an addon cannot turn it on.
+- **Settings of the tuner's DLSS section apply when the game creates DLSS** (at start, or when you change resolution or DLSS mode in the game's menu), not instantly. DXR settings apply after restarting the game.
 
----
+## Requirements and safety
+- Windows 10 or 11, NVIDIA GeForce RTX 40 series. Only tested on an RTX 4090.
+- **Do not use the pack in online games with anti-cheat.** ReShade and its addons inject into the game.
+- Portable: extract it into a folder you can write to, not under Program Files.
 
-## 🎯 GPU Hardware Compatibility
-
-| Series / Architecture | Models | DLSS 5 Neural & RR2 | Multi-Frame Gen (MFG) | L2 Cache Optimization | DXR Ray Tracing Accelerator |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| **RTX 40 Series (Ada Lovelace)**<br>*(SM_89 / Tier 1 - Primary Target)* | **RTX 4090 / 4090D (24GB)**<br>• AD102 Silicon | ✅ Preset K/M/L + RR2 Preset F | ✅ Native OFA Gen 5 (Up to 6x) | ✅ **72 MB Full**<br>(64MB Inference / 8MB Buffers) | ✅ **Fast-Trace + SER Clamping** |
-| **RTX 40 Series (Ada Lovelace)**<br>*(SM_89 / Tier 1)* | **RTX 4080 / 4080 Super (16GB)**<br>• AD103 Silicon | ✅ Preset K/M/L + RR2 Preset F | ✅ Native OFA Gen 5 (Up to 4x) | ✅ **64 MB Adaptive**<br>(54MB Inference / 10MB Buffers) | ✅ **Fast-Trace + SER Clamping** |
-| **RTX 40 Series (Ada Lovelace)**<br>*(SM_89 / Tier 1)* | **RTX 4070 Ti Super / 4070 Ti / 4070 Super / 4070**<br>• AD103 / AD104 Silicon | ✅ Preset K/M/L + RR2 Preset F | ✅ Native OFA Gen 5 (Up to 3x/4x) | ✅ **36 MB - 48 MB Adaptive** | ✅ **Fast-Trace + SER Clamping** |
-| **RTX 40 Series (Ada Lovelace)**<br>*(SM_89 / Tier 1)* | **RTX 4060 Ti (8GB/16GB) / RTX 4060 (8GB)**<br>• AD106 / AD107 Silicon | ✅ Preset K/M + RR2 Preset F | ✅ Native OFA Gen 5 (Up to 3x) | ✅ **24 MB - 32 MB Adaptive** | ✅ **Fast-Trace Adaptive** |
-| **RTX 30 Series (Ampere)**<br>*(SM_86 / Tier 2)* | **RTX 3090 / 3090 Ti / 3080 / 3080 Ti / 3070 / 3060**<br>• GA102 / GA104 Silicon | ✅ Preset K/M + RR2 Preset F | 🔄 Smooth Motion / Companion Mode | ⚠️ Hybrid VRAM Mode (6 MB L2) | ✅ **Fast-Trace Passthrough** |
-| **RTX 20 Series (Turing)**<br>*(SM_75 / Tier 3)* | **RTX 2080 Ti / 2080 Super / 2080 / 2070 / 2060**<br>• TU102 / TU104 Silicon | ✅ DLSS Super Resolution + RR | 🔄 Lightweight Interpolation | ⚠️ Standard VRAM Mode (4-6 MB L2) | ✅ **Fast-Trace Passthrough** |
-
----
-
-### 📦 Installation
-1. Download **`Ada4090Commander_v3.3.10_NGX310_Portable.zip`** from the [Latest Release](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases/latest).
-2. Extract anywhere (NVMe recommended).
+## Installation
+1. Download **`Ada4090Commander_v3.4.1_NGX310_Portable.zip`** from the [latest release](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases/latest).
+2. Extract it into a new folder.
 3. Run **`Ada4090Commander.exe`**.
