@@ -1,11 +1,11 @@
-# ⚡ Ada 4090 Commander & SM_89 Native Tuner (v3.3.11 Portable)
+# ⚡ Ada 4090 Commander & SM_89 Native Tuner (v3.3.12 Portable)
 
 [![NVIDIA Architecture](https://img.shields.io/badge/Architecture-Ada_Lovelace_AD102-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://www.nvidia.com/)
 [![SDK](https://img.shields.io/badge/NVIDIA_SDK-310.9.16-blue?style=for-the-badge)](https://developer.nvidia.com/rtx/dlss)
 [![Compute Capability](https://img.shields.io/badge/SM_Arch-SM__89-green?style=for-the-badge)]()
 [![L2 Cache Optimization](https://img.shields.io/badge/L2_Residency-72MB_Folded-orange?style=for-the-badge)]()
 [![DXR Fast-Trace](https://img.shields.io/badge/DXR_Accelerator-Hardware_Fast--Trace-purple?style=for-the-badge)]()
-[![Release](https://img.shields.io/badge/Release-v3.3.11_Portable-brightgreen?style=for-the-badge)](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases)
+[![Release](https://img.shields.io/badge/Release-v3.3.12_Portable-brightgreen?style=for-the-badge)](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases)
 
 Distribution package for **Ada 4090 Commander**, an independent standalone optimizer designed specifically for the **NVIDIA GeForce RTX 4090 (AD102 / SM_89)**.
 
@@ -16,6 +16,17 @@ This utility eliminates software-level pipeline bottlenecks, forces DLSS neural 
 ## 🎮 In-Game Native Tuner Overlay
 
 ![Ada 4090 Tuner Overlay](assets/tuner_overlay.jpg)
+
+---
+
+## 🆕 What's New in v3.3.12
+
+* **⚡ Vía Desacoplada: Arquitectura Desacoplada para Juegos Sin Streamline Nativo**:
+  * **Cero Regresiones & Protección Total**: Mantiene la suite 100% enfocada en lo que sí domina (Reconstrucción Neural DLSS 5 pura con piel natural a 1.45x, DXR Fast-Trace y 72MB L2 Cache Folding) sin inyectar wrappers rotos en motores sin soporte nativo de Streamline (como *Final Fantasy VII Remake Intergrade*).
+  * **Lossless Scaling (LSFG) Auto-Orchestration**: Orquestación automática de generación de fotogramas ópticos desacoplada (2x, 3x 144Hz, 4x) para títulos no nativos.
+  * **Descubrimiento Inteligente de LSFG**: Escaneo automático de bibliotecas de Steam (AppID 993090, `libraryfolders.vdf`), registro de Windows y soporte para enlace manual en 1-clic.
+  * **Card 2 Adaptativa**: Muestra dinámicamente si el juego opera con DLSS-G Nativo o Vía Desacoplada (LSFG), con botones de acción contextuales y monitoreo en tiempo real.
+  * **Lanzamiento Inteligente**: Al hacer clic en Jugar, si el juego opera en Vía Desacoplada, el launcher verifica e inicia Lossless Scaling en segundo plano de manera totalmente fluida.
 
 ---
 
