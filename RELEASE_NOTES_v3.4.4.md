@@ -30,7 +30,11 @@ This release fixes the frame rate drop (11–21 FPS) and false *"frame rate is n
   - SDR M=2 idle `p50_ms=3.224` | HDR M=2 idle `p50_ms=3.390` | SDR `--load 15` M=2 `p50_ms=2.582`
   - `hud_opaque_engine=99.000 dB` | scene cuts `10/10` | flash `false_cut_detections=0`
   - 3840x2160 HDR live host run: `in_fps=46.00`, `out_fps=81.96`, `m=2`, `gpu_engine_ms_p50=1.639`, `gpu_engine_ms_p95=2.448`, `errors=0`
-- **Portable app startup smoke test (isolated Windows desktop):** stayed alive cleanly (`commander.log` logged library scan with `0` tracebacks). *Note: live in-game verification with the rebuilt v3.4.4 binary is pending.*
+- **Portable app startup smoke test (isolated Windows desktop):** stayed alive cleanly (`commander.log` logged library scan with `0` tracebacks).
+- **Live in-game verification (*Final Fantasy VII Remake Intergrade*, `3840x2160` HDR10, 144 Hz display, DLSS 5 Neural Rendering active):**
+  - `2x`: `40.66–53.52 FPS` base -> `84.49–102.73 FPS` output (`gpu_ms_per_real = 2.36–2.56 ms`, `pace_p99_ms = 0.00–0.02 ms`).
+  - `4x`: `37.60–41.14 FPS` base -> `136.68–143.95 FPS` output (`gpu_ms_per_real = 2.72–5.29 ms`, `gpu_engine_ms_p50 = 2.605 ms`, `gpu_engine_ms_p95 = 5.385 ms`, `pace_p99_ms = 0.00–0.03 ms`, `8,130` presented frames, `3` dropped, `0` errors).
+  - *External FPS counters note:* Because `mfgl_host.exe` presents generated frames in an out-of-process overlay swapchain (like Lossless Scaling), external FPS overlays hooked to the game executable (`ff7remake_.exe`) report only the game's base frame rate (`~40–44 FPS`), while the real + generated output rate (`85–144 FPS`) is reported in the in-game ReShade **MFG for Legacy Games** tab (`Generating: 4x · 41 to 144 fps`).
 
 ## Package integrity
 

@@ -138,8 +138,13 @@ Our own frame generation (2x, 3x, 4x or Auto) for games that have no DLSS Frame 
 - **Panic key:** Ctrl+Alt+F12 turns it off.
 - **It works from the final image only,** so it adds latency (about one real frame) and cannot match DLSS Frame Generation.
 - If you change the game's resolution or move it to another monitor, it starts again by itself.
+- **External FPS counters show the game's base FPS:** because `mfgl_host.exe` presents generated frames in an out-of-process overlay swapchain (like Lossless Scaling), external FPS overlays hooked to the game executable (`ff7remake_.exe`) report only the game's base frame rate (`~40–44 FPS`), while the real + generated output rate (`85–144 FPS`) is reported in the in-game ReShade **MFG for Legacy Games** tab (`Generating: 4x · 41 to 144 fps`).
 
-**Tested in a game so far:** in Final Fantasy VII Remake with v3.4.3 the add-on started the program by itself, without launching from the app, and hit a WGC capture/GPU-starvation stall (11–21 FPS) under heavy 4K GPU load; v3.4.4 fixes the capture mailbox and scheduling path. Live in-game verification with the rebuilt v3.4.4 build has not been measured yet. Do not turn NVIDIA Smooth Motion on for the same game: two frame generators at once make the game much slower.
+**Tested in a game so far:** in *Final Fantasy VII Remake Intergrade* (`3840x2160` HDR10, 144 Hz display, DLSS 5 Neural Rendering active) with v3.4.4 (resolving the 11–21 FPS WGC capture/GPU-starvation stall seen in v3.4.3):
+- `2x`: `40.66–53.52 FPS` base -> `84.49–102.73 FPS` output (`gpu_ms_per_real = 2.36–2.56 ms`, `pace_p99_ms = 0.00–0.02 ms`).
+- `4x`: `37.60–41.14 FPS` base -> `136.68–143.95 FPS` output (`gpu_ms_per_real = 2.72–5.29 ms`, `gpu_engine_ms_p50 = 2.605 ms`, `gpu_engine_ms_p95 = 5.385 ms`, `pace_p99_ms = 0.00–0.03 ms`, `8,130` presented frames, `3` dropped, `0` errors).
+
+Do not turn NVIDIA Smooth Motion on for the same game: two frame generators at once make the game much slower.
 
 **Measured without a game, at 4K:**
 - v3.4.4 synth benchmarks: SDR M=2 idle `3.224 ms` p50, HDR M=2 idle `3.390 ms` p50, SDR `--load 15` M=2 `2.582 ms` p50; live 3840x2160 HDR host (`--capture-source synth --seconds 4 --mode x2`): `in_fps=46.00`, `out_fps=81.96`, `gpu_engine_ms_p50=1.639`, `gpu_engine_ms_p95=2.448`, `errors=0`; `hud_opaque_engine=99.000 dB`; scene cuts detected `10/10` (`0` flash false cuts).
