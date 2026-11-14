@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sellerengine-app/Ada4090Commander-Portable/releases/latest"><img src="https://img.shields.io/badge/Release-v3.4.3_Portable-brightgreen?style=for-the-badge" alt="Release v3.4.3 Portable"></a>
+  <a href="https://github.com/sellerengine-app/Ada4090Commander-Portable/releases/latest"><img src="https://img.shields.io/badge/Release-v3.4.4_Portable-brightgreen?style=for-the-badge" alt="Release v3.4.4 Portable"></a>
   <img src="https://img.shields.io/badge/Platform-Windows_10%2F11-blue?style=for-the-badge" alt="Windows 10/11">
   <img src="https://img.shields.io/badge/Built_for-RTX_40_(Ada)-76B900?style=for-the-badge" alt="Built for RTX 40 (Ada)">
   <img src="https://img.shields.io/badge/NVIDIA_DLSS-310.9.16-76B900?style=for-the-badge" alt="NVIDIA DLSS 310.9.16">
@@ -17,7 +17,7 @@
   <a href="#-what-the-app-does">What it does</a> ·
   <a href="#-measured-on-an-rtx-4090">Measurements</a> ·
   <a href="#-mfg-for-legacy-games">MFG for Legacy Games</a> ·
-  <a href="RELEASE_NOTES_v3.4.3.md">Release notes</a>
+  <a href="RELEASE_NOTES_v3.4.4.md">Release notes</a>
 </p>
 
 ---
@@ -29,17 +29,19 @@ Built and tested on a **GeForce RTX 4090** with a 4K 144 Hz display. Where somet
   <img src="assets/game-page.png" width="49%" alt="Game page: frame generation, DLSS and the other settings of one game">
 </p>
 
-## ✨ New in v3.4.3
+## ✨ New in v3.4.4
 
-- **MFG for Legacy Games:** our own frame generation (2x, 3x, 4x or Auto) for games that have no DLSS Frame Generation, such as Final Fantasy VII Remake. You turn it on and off and change the multiplier in the game, from its own tab in the ReShade panel. [Details below](#-mfg-for-legacy-games).
-- **Neural rendering look by default:** optimising a game now writes a tested look for the neural pass.
-- **Simpler texts:** cards, help lines and dialogs say what each thing does for the player; the technical detail is folded away.
-- **"Launch game" starts the game the way its store does** (Steam, the game's protected launcher, or the game's program).
-- **Nothing is written while the game is open,** and "open" now also counts the game's launcher.
-- **Restore removes the files ReShade and the neural addon leave behind.**
-- **Auto multiplier** never mistakes a multiplier you picked by hand for its own.
+- **MFG for Legacy Games decoupled WGC mailbox & priority fixes (`mfgl_host.exe`):** decouples Windows Graphics Capture (`OnFrameArrived` 3-buffer pool + 1-slot mailbox) from the engine loop so it no longer stalls the game's presentation queue at 4K, boosts GPU/process/MMCSS `"Games"` priority (`HIGH_PRIORITY_CLASS`, Windows 11 EcoQoS opt-out, `SetGPUThreadPriority(7)`, 8 ms swapchain wait bound), skips optical flow when paused/holding/1x, and tunes 4K L1 propagation.
+- **Included from v3.4.3:**
+  - **MFG for Legacy Games:** our own frame generation (2x, 3x, 4x or Auto) for games that have no DLSS Frame Generation, such as Final Fantasy VII Remake. You turn it on and off and change the multiplier in the game, from its own tab in the ReShade panel. [Details below](#-mfg-for-legacy-games).
+  - **Neural rendering look by default:** optimising a game now writes a tested look for the neural pass.
+  - **Simpler texts:** cards, help lines and dialogs say what each thing does for the player; the technical detail is folded away.
+  - **"Launch game" starts the game the way its store does** (Steam, the game's protected launcher, or the game's program).
+  - **Nothing is written while the game is open,** and "open" now also counts the game's launcher.
+  - **Restore removes the files ReShade and the neural addon leave behind.**
+  - **Auto multiplier** never mistakes a multiplier you picked by hand for its own.
 
-Full list in the [release notes](RELEASE_NOTES_v3.4.3.md).
+Full list in the [release notes](RELEASE_NOTES_v3.4.4.md).
 
 ## 🎯 GPU hardware compatibility
 
@@ -100,7 +102,7 @@ Only a full optimisation ("Optimise game" or "Update all games") writes the addo
 | `nvngx_dlssnr.dll` | Custom build of NVIDIA's 310.9.16 Neural Rendering runtime with native kernels for RTX 20, 30 and 40. Not signed by NVIDIA; network weights unchanged. Since v3.4.2 the RTX 40 kernels no longer wait after each memory copy; the kernels for RTX 20, 30 and 50 are byte-for-byte the same as in v3.4.1. Same file as in v3.4.2 |
 | `ada4090-sm89-tuner.addon64` | ReShade addon: DLSS presets (K for DLAA to Balanced, M for Performance, L for Ultra Performance, F for Ray Reconstruction), `DLSS.Use.Folded.Network = 1`, Frame Generation creation settings, a ray tracing recursion limit of 4 (`DxrRecursionClampDepth=0` turns it off for a game) and DXR telemetry in the log. **DXR Fast-Trace is off by default** (`DxrFastTrace=0`). Its in-game panel says when each setting takes effect |
 | `renodx-mfgunlock.addon64` | ReShade addon: Frame Generation multipliers above 2x on RTX 40, the VRR frame rate cap, and a pacing line in the log every 10 s. No XMX generator. The adaptive quality suite and the validated blend are **experimental and off by default**: turning them on changes the generated frames, which has not been checked in a game |
-| `mfgl_host.exe` | MFG for Legacy Games: our own program (MIT licence). It captures the game window with Windows Graphics Capture and shows the generated frames on top of it. New in v3.4.3 |
+| `mfgl_host.exe` | MFG for Legacy Games: our own program (MIT licence). It captures the game window with Windows Graphics Capture and shows the generated frames on top of it. New in v3.4.3; updated in v3.4.4 (decoupled WGC capture mailbox, GPU/MMCSS priority & on-demand optical flow) |
 | `ada4090-mfgl.addon64` | MFG for Legacy Games: our own ReShade add-on (MIT licence). It starts the program inside the game and adds its tab to the ReShade panel. New in v3.4.3 |
 | `renodx-dlss5.addon64`, `dlss5-feed.addon64`, `dxgi.dll` (ReShade 6.8.0), `scskiller\` | Third-party binaries |
 | `THIRD-PARTY-NOTICES.txt` | Licences of the bundled third-party components |
@@ -137,12 +139,11 @@ Our own frame generation (2x, 3x, 4x or Auto) for games that have no DLSS Frame 
 - **It works from the final image only,** so it adds latency (about one real frame) and cannot match DLSS Frame Generation.
 - If you change the game's resolution or move it to another monitor, it starts again by itself.
 
-**Tested in a game so far:** in Final Fantasy VII Remake the add-on starts the program by itself, without launching from the app. A full session with the final build (generating, and changing the multiplier from the tab) has not been measured yet. Do not turn NVIDIA Smooth Motion on for the same game: two frame generators at once make the game much slower.
+**Tested in a game so far:** in Final Fantasy VII Remake with v3.4.3 the add-on started the program by itself, without launching from the app, and hit a WGC capture/GPU-starvation stall (11–21 FPS) under heavy 4K GPU load; v3.4.4 fixes the capture mailbox and scheduling path. Live in-game verification with the rebuilt v3.4.4 build has not been measured yet. Do not turn NVIDIA Smooth Motion on for the same game: two frame generators at once make the game much slower.
 
 **Measured without a game, at 4K:**
-- 5.2 ms of GPU time per real frame for 3x under a load like the neural network's (3.9 ms for 2x, 6.3 ms for 4x); generated frames 6 dB (SDR) to 9 dB (HDR) better than a plain blend; scene cuts detected 10 out of 10.
-- On a real 4K 144 Hz display with a test image: 2x, 3x and 4x keep a regular rhythm from 46 and 34 fps sources, in SDR and HDR, with no wrong frames.
-- With a test source whose frame rate moves between 73 and 90 fps: frames generated 96 to 98 % of the time; in the worst 5 % a generated frame is shown about 6 ms away from its ideal time (one refresh of a 144 Hz display is 6.9 ms).
+- v3.4.4 synth benchmarks: SDR M=2 idle `3.224 ms` p50, HDR M=2 idle `3.390 ms` p50, SDR `--load 15` M=2 `2.582 ms` p50; live 3840x2160 HDR host (`--capture-source synth --seconds 4 --mode x2`): `in_fps=46.00`, `out_fps=81.96`, `gpu_engine_ms_p50=1.639`, `gpu_engine_ms_p95=2.448`, `errors=0`; `hud_opaque_engine=99.000 dB`; scene cuts detected `10/10` (`0` flash false cuts).
+- On a real 4K 144 Hz display with a test image (v3.4.3 engine baseline): 2x, 3x and 4x keep a regular rhythm from 46 and 34 fps sources, in SDR and HDR, with no wrong frames; with a moving 73–90 fps source, frames generated 96–98 % of the time.
 
 ## 🚫 What this pack does not do
 
@@ -159,8 +160,8 @@ Our own frame generation (2x, 3x, 4x or Auto) for games that have no DLSS Frame 
 
 ## 📥 Download and install
 
-1. Download **`Ada4090Commander_v3.4.3_NGX310_Portable.zip`** from the [latest release](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases/latest).
+1. Download **`Ada4090Commander_v3.4.4_NGX310_Portable.zip`** from the [latest release](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases/latest) (`SHA-256: 4f1bf90ad1499a83dbdf99a9ca5f0fea373eb7d7916d4a43eb296ae450af8a06`).
 2. Extract it into a new folder.
 3. Run **`Ada4090Commander.exe`**.
 
-Release notes of every version: [v3.4.3](RELEASE_NOTES_v3.4.3.md) · [v3.4.2](RELEASE_NOTES_v3.4.2.md) · [v3.4.1](RELEASE_NOTES_v3.4.1.md) · [v3.4.0](RELEASE_NOTES_v3.4.0.md) · [v3.3.12](RELEASE_NOTES_v3.3.12.md) · [v3.3.11](RELEASE_NOTES_v3.3.11.md) · [v3.3.10](RELEASE_NOTES_v3.3.10.md) · [v3.3.9](RELEASE_NOTES_v3.3.9.md) · [v3.3.8](RELEASE_NOTES_v3.3.8.md)
+Release notes of every version: [v3.4.4](RELEASE_NOTES_v3.4.4.md) · [v3.4.3](RELEASE_NOTES_v3.4.3.md) · [v3.4.2](RELEASE_NOTES_v3.4.2.md) · [v3.4.1](RELEASE_NOTES_v3.4.1.md) · [v3.4.0](RELEASE_NOTES_v3.4.0.md) · [v3.3.12](RELEASE_NOTES_v3.3.12.md) · [v3.3.11](RELEASE_NOTES_v3.3.11.md) · [v3.3.10](RELEASE_NOTES_v3.3.10.md) · [v3.3.9](RELEASE_NOTES_v3.3.9.md) · [v3.3.8](RELEASE_NOTES_v3.3.8.md)
