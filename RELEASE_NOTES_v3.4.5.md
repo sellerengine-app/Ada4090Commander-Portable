@@ -36,6 +36,6 @@ Diff vs `Ada4090Commander_v3.4.4_NGX310_Portable.zip`: `1,670` total files (`1,6
 
 | Artifact | Size (bytes) | SHA-256 | Notes |
 |---|---:|---|---|
-| `Ada4090Commander_v3.4.5_NGX310_Portable.zip` | 1,052,367,618 | `3d5d48a7d2473424d36de1d9b4971c32f31a660664557b94bfc4891a5b499192` | Full portable package (including OptiScaler, ANR FG, dlssg-to-xefg, XeFG, FSR 3.1) |
-| `Ada4090Commander.exe` | 4,769,166 | `9c6db014b7aec6d22fc0b4ec701e69dd8cbe7b822e03aaeb0458b0f81d897598` | Updated `APP_VERSION` & neural defaults |
+| `Ada4090Commander_v3.4.5_NGX310_Portable.zip` | 954,339,620 | `58aa98d7dd7e2e73ec546d5d72293c0c1c0a815c4e9fbfda5e9175cb2335fbf7` | Full portable package (including OptiScaler, ANR FG, dlssg-to-xefg, XeFG, FSR 3.1) |
+| `Ada4090Commander.exe` | 4,771,241 | `65da2abe83b9a71adad8114187843de562b5f2ce41352cf8679f4aa30c08ae31` | 1-Click OptiScaler deploy & in-engine FG |
 | `_internal/base_library.zip` | 1,443,565 | `bbb3c32cb6b3e7ea40d2f0d9a6ca5cbe4980665f299863fcb00bc972e2cfc21a` | Python standard library archive |
