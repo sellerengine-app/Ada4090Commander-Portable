@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sellerengine-app/Ada4090Commander-Portable/releases/latest"><img src="https://img.shields.io/badge/Release-v3.4.4_Portable-brightgreen?style=for-the-badge" alt="Release v3.4.4 Portable"></a>
+  <a href="https://github.com/sellerengine-app/Ada4090Commander-Portable/releases/latest"><img src="https://img.shields.io/badge/Release-v3.4.5_Portable-brightgreen?style=for-the-badge" alt="Release v3.4.5 Portable"></a>
   <img src="https://img.shields.io/badge/Platform-Windows_10%2F11-blue?style=for-the-badge" alt="Windows 10/11">
   <img src="https://img.shields.io/badge/Built_for-RTX_40_(Ada)-76B900?style=for-the-badge" alt="Built for RTX 40 (Ada)">
   <img src="https://img.shields.io/badge/NVIDIA_DLSS-310.9.16-76B900?style=for-the-badge" alt="NVIDIA DLSS 310.9.16">
@@ -17,7 +17,7 @@
   <a href="#-what-the-app-does">What it does</a> ·
   <a href="#-measured-on-an-rtx-4090">Measurements</a> ·
   <a href="#-mfg-for-legacy-games">MFG for Legacy Games</a> ·
-  <a href="RELEASE_NOTES_v3.4.4.md">Release notes</a>
+  <a href="RELEASE_NOTES_v3.4.5.md">Release notes</a>
 </p>
 
 ---
@@ -29,19 +29,13 @@ Built and tested on a **GeForce RTX 4090** with a 4K 144 Hz display. Where somet
   <img src="assets/game-page.png" width="49%" alt="Game page: frame generation, DLSS and the other settings of one game">
 </p>
 
-## ✨ New in v3.4.4
+## ✨ New in v3.4.5
 
-- **MFG for Legacy Games decoupled WGC mailbox & priority fixes (`mfgl_host.exe`):** decouples Windows Graphics Capture (`OnFrameArrived` 3-buffer pool + 1-slot mailbox) from the engine loop so it no longer stalls the game's presentation queue at 4K, boosts GPU/process/MMCSS `"Games"` priority (`HIGH_PRIORITY_CLASS`, Windows 11 EcoQoS opt-out, `SetGPUThreadPriority(7)`, 8 ms swapchain wait bound), skips optical flow when paused/holding/1x, and tunes 4K L1 propagation.
-- **Included from v3.4.3:**
-  - **MFG for Legacy Games:** our own frame generation (2x, 3x, 4x or Auto) for games that have no DLSS Frame Generation, such as Final Fantasy VII Remake. You turn it on and off and change the multiplier in the game, from its own tab in the ReShade panel. [Details below](#-mfg-for-legacy-games).
-  - **Neural rendering look by default:** optimising a game now writes a tested look for the neural pass.
-  - **Simpler texts:** cards, help lines and dialogs say what each thing does for the player; the technical detail is folded away.
-  - **"Launch game" starts the game the way its store does** (Steam, the game's protected launcher, or the game's program).
-  - **Nothing is written while the game is open,** and "open" now also counts the game's launcher.
-  - **Restore removes the files ReShade and the neural addon leave behind.**
-  - **Auto multiplier** never mistakes a multiplier you picked by hand for its own.
+- **DLSS 5 Neural Rendering Performance Optimization:** tunes the default photorealistic profile (`PHOTOREAL_NR_PROFILE`) to single-pass evaluation (`NRPasses=1`) at 0.50 scale (`NRResolutionScale=0.50`, 2.07M pixels) with UI correction preserved and default feed resolution at 77 % (`work_resolution=77`). This cuts neural GPU time from **17.29 ms** to **~4.5–5.2 ms**, restoring **80–90+ FPS base performance** with full Neural Rendering active.
+- **Unreal Engine Non-Dilated Motion Vectors:** automatically configures `r.NGX.DLSS.DilateMotionVectors=0` and `r.Streamline.DilateMotionVectors=0` in `Engine.ini` during optimization, eliminating motion blur jitter in frame interpolation pipelines (OptiFG, XeFG, ANR FG).
+- **In-Engine Swapchain Frame Generation Alignment:** architecture and profile templates for swapchain injection via OptiScaler (`dxgi.dll`), Intel XeFG (`libxess_fg.dll`), and Apex Neural Rendering (ANR FG), allowing external FPS counters (`RENDIMIENTO`, RivaTuner) to read 120–144 FPS directly.
 
-Full list in the [release notes](RELEASE_NOTES_v3.4.4.md).
+Full list in the [release notes](RELEASE_NOTES_v3.4.5.md).
 
 ## 🎯 GPU hardware compatibility
 
@@ -165,8 +159,8 @@ Do not turn NVIDIA Smooth Motion on for the same game: two frame generators at o
 
 ## 📥 Download and install
 
-1. Download **`Ada4090Commander_v3.4.4_NGX310_Portable.zip`** from the [latest release](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases/latest) (`SHA-256: 4f1bf90ad1499a83dbdf99a9ca5f0fea373eb7d7916d4a43eb296ae450af8a06`).
+1. Download **`Ada4090Commander_v3.4.5_NGX310_Portable.zip`** from the [latest release](https://github.com/sellerengine-app/Ada4090Commander-Portable/releases/latest) (`SHA-256: bcf46f37d79301a40bcf3b5ab03ffc46f7ec433a6778d1bf5463591c750dd7eb`).
 2. Extract it into a new folder.
 3. Run **`Ada4090Commander.exe`**.
 
-Release notes of every version: [v3.4.4](RELEASE_NOTES_v3.4.4.md) · [v3.4.3](RELEASE_NOTES_v3.4.3.md) · [v3.4.2](RELEASE_NOTES_v3.4.2.md) · [v3.4.1](RELEASE_NOTES_v3.4.1.md) · [v3.4.0](RELEASE_NOTES_v3.4.0.md) · [v3.3.12](RELEASE_NOTES_v3.3.12.md) · [v3.3.11](RELEASE_NOTES_v3.3.11.md) · [v3.3.10](RELEASE_NOTES_v3.3.10.md) · [v3.3.9](RELEASE_NOTES_v3.3.9.md) · [v3.3.8](RELEASE_NOTES_v3.3.8.md)
+Release notes of every version: [v3.4.5](RELEASE_NOTES_v3.4.5.md) · [v3.4.4](RELEASE_NOTES_v3.4.4.md) · [v3.4.3](RELEASE_NOTES_v3.4.3.md) · [v3.4.2](RELEASE_NOTES_v3.4.2.md) · [v3.4.1](RELEASE_NOTES_v3.4.1.md) · [v3.4.0](RELEASE_NOTES_v3.4.0.md) · [v3.3.12](RELEASE_NOTES_v3.3.12.md) · [v3.3.11](RELEASE_NOTES_v3.3.11.md) · [v3.3.10](RELEASE_NOTES_v3.3.10.md) · [v3.3.9](RELEASE_NOTES_v3.3.9.md) · [v3.3.8](RELEASE_NOTES_v3.3.8.md)
